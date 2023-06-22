@@ -1,6 +1,11 @@
 import csv
+import os
 
 def merge_csv_columns(desktop_central_file_path, cmdb_file_path, output_path):
+    # Extract the file names from the paths
+    desktop_central_filename = os.path.splitext(os.path.basename(desktop_central_file_path))[0]
+    cmdb_filename = os.path.splitext(os.path.basename(cmdb_file_path))[0]
+    
     # Read the first column of CSV1
     csv1_column = []
     with open(desktop_central_file_path, 'r') as csv1_file:
@@ -21,8 +26,8 @@ def merge_csv_columns(desktop_central_file_path, cmdb_file_path, output_path):
     with open(output_path, 'w', newline='') as output_file:
         csv_writer = csv.writer(output_file)
         
-        # Write the heading row with the titles
-        csv_writer.writerow([csv1_title, csv2_title])
+        # Write the heading row with the file names as titles
+        csv_writer.writerow([desktop_central_filename, cmdb_filename])
         
         # Write the merged columns
         for i in range(max(len(csv1_column), len(csv2_column))):
